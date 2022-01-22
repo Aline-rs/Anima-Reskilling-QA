@@ -1,5 +1,7 @@
 /// <reference types = "cypress" />
 
+import PaginaInicial from "./Modulos/modulos.js"
+
 describe("testes2", () => {
 
     it.only("exercicio 2", () =>{

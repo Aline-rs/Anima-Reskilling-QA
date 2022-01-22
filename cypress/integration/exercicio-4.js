@@ -1,3 +1,5 @@
+import PaginaInicial from "./Modulos/modulos.js"
+
 describe("exer. 4 - login com vários usuários", () =>{
     before(() => {
         cy.visit("https://www.saucedemo.com/");

@@ -1,5 +1,7 @@
 /// <reference types = "cypress" />
 
+import PaginaInicial from "./Modulos/modulos.js"
+
 before(() => {
     cy.visit("https://www.saucedemo.com/");
 })

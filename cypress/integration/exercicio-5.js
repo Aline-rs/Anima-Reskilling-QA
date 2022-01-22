@@ -1,30 +1,33 @@
 /// <reference types = "cypress" />
 
+import {PaginaInicial, PaginaProdutos} from "./Modulos/modulos.js"
 
-beforeEach(() => {
+
+/* beforeEach(() => {
     cy.visit("https://www.saucedemo.com/");
-})
+}) */
 
 describe("Teste - Percurso válido", () => {
 
-
+    const login = new PaginaInicial();
+    const produtos = new PaginaProdutos();
 
     it("Percurso: Login, carrinho, finalização da compra e validações", () =>{
 
         //Realizando login
-        
-        cy.get('[data-test="username"]').type("standard_user");
-        cy.get('[data-test="password"]').type("secret_sauce");
-        cy.get('[data-test="login-button"]').click();
+        login.acessoSite()
+        login.caixaUsername().type("standard_user");
+        login.caixaSenha().type("secret_sauce");
+        login.botaoLogin().click();
 
         // Validação de login 
 
-        cy.get('.title').should("contain", "Products"); 
+        produtos.tituloVerificacao().should("contain","Products"); 
         
         //Adicionando ao carrinho
 
-        cy.get('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-        cy.get('.shopping_cart_link').click();
+        produtos.adicionarCarrinho().click();
+        produtos.carrinhoVerificacao().click();
 
         // Validação carrinho
 
@@ -55,7 +58,7 @@ describe("Teste - Percurso válido", () => {
         cy.get('.complete-header').should("contain", "THANK YOU FOR YOUR ORDER");
     })
 
-    it("Login e adicionar e remover do carrinho", () =>{
+    it.skip("Login e adicionar e remover do carrinho", () =>{
 
         //login
         cy.get('[data-test="username"]').type("standard_user");
