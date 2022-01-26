@@ -1,6 +1,11 @@
 /// <reference types = "cypress" />
 
-import {PaginaInicial, PaginaProdutos, PaginaCarrinho, PaginaFormulario, PaginaCompra, PaginaFinal} from "./Modulos/modulos.js"
+import PaginaInicial from "./Modulos/Classes-Exercicio-5/classPagInicial.js"
+import PaginaProdutos from "./Modulos/Classes-Exercicio-5/classPagProduto"
+import PaginaCarrinho from "./Modulos/Classes-Exercicio-5/classPagCarrinho"
+import PaginaCompra from "./Modulos/Classes-Exercicio-5/classPagCompra"
+import PaginaFormulario from "./Modulos/Classes-Exercicio-5/classPagFormulario"
+import PaginaFinal from "./Modulos/Classes-Exercicio-5/classPagFinal"
 
 
 beforeEach(() => {
@@ -19,50 +24,34 @@ describe("Teste - Percurso válido", () => {
     it("Percurso: Login, carrinho, finalização da compra e validações", () =>{
 
         //Realizando login
-        login.acessoSite()
-        login.caixaUsername().type("standard_user");
-        login.caixaSenha().type("secret_sauce");
-        login.botaoLogin().click();
+        login.Login("standard_user", "secret_sauce");
 
-        // Validação de login 
+        // Validação de login e adicionando ao carrinho
 
         produtos.tituloVerificacao().should("contain","Products"); 
-        
-        //Adicionando ao carrinho
-
-        produtos.adicionarCarrinho().click();
-        produtos.carrinhoVerificacao().click();
+        produtos.Produtos();
 
         // Validação carrinho
 
         carrinho.validacaoCarrinho().should("contain", "Sauce Labs Backpack");  
+        carrinho.processCarrinho();
 
         // Preenchendo formulário e validando 
-
-        var precoA = cy.get('.inventory_item_price');
-        carrinho.botaoCheckout().click(); 
+        
         formulario.verificacaoCheckout().should("contain", "Checkout");
-        formulario.caixaFirstName().type("Aline");
-        formulario.caixaLastName().type("Rosa");
-        formulario.caixaPostalCode().type("55555555");
-        formulario.botaoContinue().click();
+        formulario.processFormulario("Aline", "Rosa", "5555555")
     
         // Validando tela de compra
         
         compra.validacaoCompra().should("contain", "Checkout: Overview");
-
-        // Validando preço
-
-        var precoB = cy.get('.summary_subtotal_label');
-        precoA = precoB;
-
+        compra.finalizarCompra()
         // Validando tela final
 
-        compra.botaoFinish().click(); 
+        
         final.validacaoFinal().should("contain", "THANK YOU FOR YOUR ORDER");
     })
-
-    it("Login e adicionar e remover do carrinho", () =>{
+ /* 
+    it.skip("Login e adicionar e remover do carrinho", () =>{
 
         //login
         login.caixaUsername().type("standard_user");
@@ -79,4 +68,5 @@ describe("Teste - Percurso válido", () => {
         produtos.carrinhoVerificacao().click();
         carrinho.validacaoCarrinho().should("contain", "Sauce Labs Bike Light"); 
     }) 
-}) 
+}) */
+})
